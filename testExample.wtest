@@ -1,9 +1,39 @@
-import example.pepita
+import rodados.*
 
-describe "group of tests for pepita" {
+describe "tests" {
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
-  }
+    const deportes = new Dependencia(empleados = 45)
+    const cultura = new Dependencia(empleados=31)
+    const cachito = new Corsa(color="rojo")
+    const pedido960km = new Pedido(distancia=960,tiempoMaximo=8,cantidadDePasajeros=4,coloresIncompatibles=#{"azul","negro"})
 
+    method initialize() {
+      deportes.agregarAFlota(cachito)
+      deportes.agregarAFlota(new Corsa(color="azul"))
+      deportes.agregarAFlota(new Corsa(color="verde"))
+      deportes.agregarAFlota(new Kwid(tieneTanqueAdicional=true))
+      deportes.agregarAFlota(new AutoEspecial(capacida=5,velocidad=160,peso=1200,color="beige"))
+
+      cultura.agregarAFlota(cachito)
+      cultura.agregarAFlota(new Kwid(tieneTanqueAdicional=true))
+      cultura.agregarAFlota(new Kwid(tieneTanqueAdicional=true))
+      cultura.agregarAFlota(new Kwid(tieneTanqueAdicional=false))
+      trafic.cambiarInterior(popular)
+      trafic.cambiarMotor(bataton)
+      cultura.agregarAFlota(trafic)
+    }
+
+
+    test "peso total de la flota deportes" {
+      assert.equals(3000+1350+1200, deportes.pesoTotalDelaFlota)
+    }
+
+
+    test "cultura no esta bien equipada porque tiene la trafic que tiene el motor bataton" {
+      assert.notThat(cultura.estaBienEquipada())
+    }
+
+    test "cachito puede satisfacer el pedido 960km" {
+      assert.that(pedido960km, puedeSatisfacerlo(cachito))
+    }
 }
